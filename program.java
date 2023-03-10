@@ -1,5 +1,1 @@
-(String[] a) {
-    /* nadine */
-  new int[0];
-     }
-}
+public int nadine()
