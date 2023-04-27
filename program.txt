@@ -1,0 +1,6 @@
+class Test {
+    public static void main(String args) {
+        int nads = 5;
+        int nads = 5;
+    }
+}

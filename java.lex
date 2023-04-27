@@ -6,8 +6,7 @@
 #include <math.h>
 #include "java.tab.h"	    
 #include <stdbool.h>                                                                     	
-
-
+char nom[100];
 %}
 
 %option yylineno
@@ -75,45 +74,45 @@ IDERONNE                                [0-9][a-zA-Z]*
                                    if(c==EOF&&done==false) printf("ERROR IN COMMENT BLOC");
                                    }
 \n   ;
-{BOOLEAN_LITERAL}                       {printf("--Boolean Literal-- \n"); return BOOLEAN_LITERAL;}
-{INTEGER_LITERAL}                       {printf("--Integer Literal-- \n");return INTEGER_LITERAL;}
-{BOOLEAN}                                   {printf("--boolean--\n"); return BOOLEAN ;}
-{PUBLIC}                                {printf("--PUBLIC--\n"); return PUBLIC;} 
-{RETURN}                                {printf("--RETURN--\n"); return RETURN;} 
+{BOOLEAN_LITERAL}                       {strcpy(nom,yytext);printf("--Boolean Literal-- \n"); return BOOLEAN_LITERAL;}
+{INTEGER_LITERAL}                       {strcpy(nom,yytext);printf("--Integer Literal-- \n");return INTEGER_LITERAL;}
+{BOOLEAN}                                   {strcpy(nom,yytext);printf("--boolean--\n"); return BOOLEAN ;}
+{PUBLIC}                                {strcpy(nom,yytext);printf("--PUBLIC--\n"); return PUBLIC;} 
+{RETURN}                                {strcpy(nom,yytext);printf("--RETURN--\n"); return RETURN;} 
 
-{EXTENDS}                                   {printf("--extends keyword--\n"); return EXTENDS ;}
-{CLASS}                                   {printf("--CLASS keyword--\n"); return CLASS ;}
-{STATIC}                                   {printf("--STATIC keyword--\n"); return STATIC ;}
-{VOID}                                   {printf("--VOID keyword--\n"); return VOID; }
-{MAIN}                                   {printf("--MAIN keyword--\n"); return MAIN; }
+{EXTENDS}                                   {strcpy(nom,yytext);printf("--extends keyword--\n"); return EXTENDS ;}
+{CLASS}                                   {strcpy(nom,yytext);printf("--CLASS keyword--\n"); return CLASS ;}
+{STATIC}                                   {strcpy(nom,yytext);printf("--STATIC keyword--\n"); return STATIC ;}
+{VOID}                                   {strcpy(nom,yytext);printf("--VOID keyword--\n"); return VOID; }
+{MAIN}                                   {strcpy(nom,yytext);printf("--MAIN keyword--\n"); return MAIN; }
 
-{STRING}                                   {printf("--STRING keyword--\n"); return STRING; }
-{LENGTH}                                 {printf("--LENGTH--\n"); return LENGTH;} 
-{DOT}                                    {printf("--Dot--\n"); return DOT;} 
-{AESTRIK}                               {printf("--AESTRIK--\n"); return AESTRIK;}
-{THIS}                                   {printf("--THIS--\n"); return THIS;} 
-{PROGRAM}                               { printf("--PROGRAM-- \n");return PROGRAM;}
-{NEW}                                   {printf("--Keyword new--\n"); return NEW; }
-{INT}                                   {printf("--Keyword int--\n"); return INT; }
-{OPEN_BRACKET}                                   {printf("--open bracket--\n"); return OPEN_BRACKET; }
-{CLOSED_BRACKET}                                   {printf("--closed bracket--\n"); return CLOSED_BRACKET; }
-{OPEN_PARENTH}                                   {printf("--open parenth--\n"); return OPEN_PARENTH; }
-{CLOSED_PARENTH}                                   {printf("--closed parenth--\n"); return CLOSED_PARENTH; }
-{NOT}                                   {printf("--not--\n"); return NOT; }
-{COMMA}                                 {printf("--comma--\n"); return COMMA; }
-{QMARK}                                 {printf("--question mark--\n"); return QMARK; }
-{OPEN_CURLY}                                {printf("--OPEN_CURLY--\n"); return OPEN_CURLY; }
-{CLOSE_CURLY}                                  {printf("--CLOSE_CURLY--\n"); return CLOSE_CURLY; }
-{IF}                                           {printf("--IF--\n"); return IF; }
-{ELSE}                                        {printf("--ELSE--\n"); return ELSE; }
-{WHILE}                                       {printf("--WHILE--\n"); return WHILE; }
-{PRINT}                                        {printf("--PRINT--\n"); return PRINT; }
-{AFFECT}                                       {printf("--AFFECT--\n"); return AFFECT; }
+{STRING}                                   {strcpy(nom,yytext);printf("--STRING keyword--\n"); return STRING; }
+{LENGTH}                                 {strcpy(nom,yytext);printf("--LENGTH--\n"); return LENGTH;} 
+{DOT}                                    {strcpy(nom,yytext);printf("--Dot--\n"); return DOT;} 
+{AESTRIK}                               {strcpy(nom,yytext);printf("--AESTRIK--\n"); return AESTRIK;}
+{THIS}                                   {strcpy(nom,yytext);printf("--THIS--\n"); return THIS;} 
+{PROGRAM}                               { strcpy(nom,yytext);printf("--PROGRAM-- \n");return PROGRAM;}
+{NEW}                                   {strcpy(nom,yytext);printf("--Keyword new--\n"); return NEW; }
+{INT}                                   {strcpy(nom,yytext);printf("--Keyword int--\n"); return INT; }
+{OPEN_BRACKET}                                   {strcpy(nom,yytext);printf("--open bracket--\n"); return OPEN_BRACKET; }
+{CLOSED_BRACKET}                                   {strcpy(nom,yytext);printf("--closed bracket--\n"); return CLOSED_BRACKET; }
+{OPEN_PARENTH}                                   {strcpy(nom,yytext);printf("--open parenth--\n"); return OPEN_PARENTH; }
+{CLOSED_PARENTH}                                   {strcpy(nom,yytext);printf("--closed parenth--\n"); return CLOSED_PARENTH; }
+{NOT}                                   {strcpy(nom,yytext);printf("--not--\n"); return NOT; }
+{COMMA}                                 {strcpy(nom,yytext);printf("--comma--\n"); return COMMA; }
+{QMARK}                                 {strcpy(nom,yytext);printf("--question mark--\n"); return QMARK; }
+{OPEN_CURLY}                                {strcpy(nom,yytext);printf("--OPEN_CURLY--\n"); return OPEN_CURLY; }
+{CLOSE_CURLY}                                  {strcpy(nom,yytext);printf("--CLOSE_CURLY--\n"); return CLOSE_CURLY; }
+{IF}                                           {strcpy(nom,yytext);printf("--IF--\n"); return IF; }
+{ELSE}                                        {strcpy(nom,yytext);printf("--ELSE--\n"); return ELSE; }
+{WHILE}                                       {strcpy(nom,yytext);printf("--WHILE--\n"); return WHILE; }
+{PRINT}                                        {strcpy(nom,yytext);printf("--PRINT--\n"); return PRINT; }
+{AFFECT}                                       {strcpy(nom,yytext);printf("--AFFECT--\n"); return AFFECT; }
 
-{identifier}                            { printf("--identifier-- \n"); return identifier;}
-{point_virgule}                          {printf("--point_virgule-- \n");return point_virgule;}
-{OPER}                                  {printf("--OPER-- \n"); return OPER ;}
-{IDERONNE}                              {printf("--IDERONNE-- \n") ;}
+{identifier}                            { strcpy(nom,yytext);printf("--identifier-- \n"); return identifier;}
+{point_virgule}                          {strcpy(nom,yytext);printf("--point_virgule-- \n");return point_virgule;}
+{OPER}                                  {strcpy(nom,yytext);printf("--OPER-- \n"); return OPER ;}
+{IDERONNE}                              {strcpy(nom,yytext);printf("--IDERONNE-- \n") ;}
 %%
 
 
