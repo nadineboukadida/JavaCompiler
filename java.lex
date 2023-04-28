@@ -7,6 +7,8 @@
 #include "java.tab.h"	    
 #include <stdbool.h>                                                                     	
 char nom[100];
+char nomID[100];
+
 %}
 
 %option yylineno
@@ -109,7 +111,7 @@ IDERONNE                                [0-9][a-zA-Z]*
 {PRINT}                                        {strcpy(nom,yytext);printf("--PRINT--\n"); return PRINT; }
 {AFFECT}                                       {strcpy(nom,yytext);printf("--AFFECT--\n"); return AFFECT; }
 
-{identifier}                            { strcpy(nom,yytext);printf("--identifier-- \n"); return identifier;}
+{identifier}                            { strcpy(nomID,yytext);printf("--identifier-- \n"); return identifier;}
 {point_virgule}                          {strcpy(nom,yytext);printf("--point_virgule-- \n");return point_virgule;}
 {OPER}                                  {strcpy(nom,yytext);printf("--OPER-- \n"); return OPER ;}
 {IDERONNE}                              {strcpy(nom,yytext);printf("--IDERONNE-- \n") ;}

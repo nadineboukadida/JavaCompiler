@@ -1,11 +1,9 @@
+    
+ class hi {
     public int ComputeFac(int num){
-        int numaux ;
-        int numaux1 ;
-        int numaux1 ;
-        return numaux ;
-    }
-        public int ComputeFac(int num){
-        int numaux ;
+        int numaux;
 
-        return numaux ;
-    }
+        numaux = true;
+        return hh ;
+ }   
+ }

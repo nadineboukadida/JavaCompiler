@@ -45,9 +45,13 @@ typedef struct NOEUD *NOEUD;
 
 NOEUD creer(const char *nom, TYPE_IDENTIFIER type, CLASSE classe, NOEUD suivant);
 NOEUD insert(NOEUD noeud, NOEUD table);
-NOEUD rechercher(const char *nom, NOEUD table);
+NOEUD rechercher(const char *nom, NOEUD table, int classe);
 void checkVariable(char *identif, int classe);
 void checkParam(char *identif);
 void enterFunction();
 void closeFunction();
 void destructTable(NOEUD table);
+void checkIdentifier(char *nom, int classe);
+bool checkInit(char *identif, NOEUD table);
+void init_helper(char *identif, NOEUD table);
+void initVariable(char *identif);

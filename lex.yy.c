@@ -488,7 +488,9 @@ char *yytext;
 #include "java.tab.h"	    
 #include <stdbool.h>                                                                     	
 char nom[100];
-#line 492 "lex.yy.c"
+char nomID[100];
+
+#line 494 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -639,10 +641,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 58 "java.lex"
+#line 60 "java.lex"
 
 
-#line 646 "lex.yy.c"
+#line 648 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -735,22 +737,22 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 60 "java.lex"
+#line 62 "java.lex"
 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 61 "java.lex"
+#line 63 "java.lex"
 yylineno++;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 62 "java.lex"
+#line 64 "java.lex"
 printf("--Comment Line-- \n");
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 63 "java.lex"
+#line 65 "java.lex"
 {
                                    char c = input();
                                    bool done = false;
@@ -767,195 +769,195 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 76 "java.lex"
+#line 78 "java.lex"
 ;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 77 "java.lex"
+#line 79 "java.lex"
 {strcpy(nom,yytext);printf("--Boolean Literal-- \n"); return BOOLEAN_LITERAL;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 78 "java.lex"
+#line 80 "java.lex"
 {strcpy(nom,yytext);printf("--Integer Literal-- \n");return INTEGER_LITERAL;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 79 "java.lex"
+#line 81 "java.lex"
 {strcpy(nom,yytext);printf("--boolean--\n"); return BOOLEAN ;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 80 "java.lex"
+#line 82 "java.lex"
 {strcpy(nom,yytext);printf("--PUBLIC--\n"); return PUBLIC;} 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 81 "java.lex"
+#line 83 "java.lex"
 {strcpy(nom,yytext);printf("--RETURN--\n"); return RETURN;} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 83 "java.lex"
+#line 85 "java.lex"
 {strcpy(nom,yytext);printf("--extends keyword--\n"); return EXTENDS ;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 84 "java.lex"
+#line 86 "java.lex"
 {strcpy(nom,yytext);printf("--CLASS keyword--\n"); return CLASS ;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 85 "java.lex"
+#line 87 "java.lex"
 {strcpy(nom,yytext);printf("--STATIC keyword--\n"); return STATIC ;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 86 "java.lex"
+#line 88 "java.lex"
 {strcpy(nom,yytext);printf("--VOID keyword--\n"); return VOID; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 87 "java.lex"
+#line 89 "java.lex"
 {strcpy(nom,yytext);printf("--MAIN keyword--\n"); return MAIN; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 89 "java.lex"
+#line 91 "java.lex"
 {strcpy(nom,yytext);printf("--STRING keyword--\n"); return STRING; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 90 "java.lex"
+#line 92 "java.lex"
 {strcpy(nom,yytext);printf("--LENGTH--\n"); return LENGTH;} 
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 91 "java.lex"
+#line 93 "java.lex"
 {strcpy(nom,yytext);printf("--Dot--\n"); return DOT;} 
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 92 "java.lex"
+#line 94 "java.lex"
 {strcpy(nom,yytext);printf("--AESTRIK--\n"); return AESTRIK;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 93 "java.lex"
+#line 95 "java.lex"
 {strcpy(nom,yytext);printf("--THIS--\n"); return THIS;} 
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 94 "java.lex"
+#line 96 "java.lex"
 { strcpy(nom,yytext);printf("--PROGRAM-- \n");return PROGRAM;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 95 "java.lex"
+#line 97 "java.lex"
 {strcpy(nom,yytext);printf("--Keyword new--\n"); return NEW; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 96 "java.lex"
+#line 98 "java.lex"
 {strcpy(nom,yytext);printf("--Keyword int--\n"); return INT; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 97 "java.lex"
+#line 99 "java.lex"
 {strcpy(nom,yytext);printf("--open bracket--\n"); return OPEN_BRACKET; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 98 "java.lex"
+#line 100 "java.lex"
 {strcpy(nom,yytext);printf("--closed bracket--\n"); return CLOSED_BRACKET; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 99 "java.lex"
+#line 101 "java.lex"
 {strcpy(nom,yytext);printf("--open parenth--\n"); return OPEN_PARENTH; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 100 "java.lex"
+#line 102 "java.lex"
 {strcpy(nom,yytext);printf("--closed parenth--\n"); return CLOSED_PARENTH; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 101 "java.lex"
+#line 103 "java.lex"
 {strcpy(nom,yytext);printf("--not--\n"); return NOT; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 102 "java.lex"
+#line 104 "java.lex"
 {strcpy(nom,yytext);printf("--comma--\n"); return COMMA; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 103 "java.lex"
+#line 105 "java.lex"
 {strcpy(nom,yytext);printf("--question mark--\n"); return QMARK; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 104 "java.lex"
+#line 106 "java.lex"
 {strcpy(nom,yytext);printf("--OPEN_CURLY--\n"); return OPEN_CURLY; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 105 "java.lex"
+#line 107 "java.lex"
 {strcpy(nom,yytext);printf("--CLOSE_CURLY--\n"); return CLOSE_CURLY; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 106 "java.lex"
+#line 108 "java.lex"
 {strcpy(nom,yytext);printf("--IF--\n"); return IF; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 107 "java.lex"
+#line 109 "java.lex"
 {strcpy(nom,yytext);printf("--ELSE--\n"); return ELSE; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 108 "java.lex"
+#line 110 "java.lex"
 {strcpy(nom,yytext);printf("--WHILE--\n"); return WHILE; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 109 "java.lex"
+#line 111 "java.lex"
 {strcpy(nom,yytext);printf("--PRINT--\n"); return PRINT; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 110 "java.lex"
+#line 112 "java.lex"
 {strcpy(nom,yytext);printf("--AFFECT--\n"); return AFFECT; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 112 "java.lex"
-{ strcpy(nom,yytext);printf("--identifier-- \n"); return identifier;}
+#line 114 "java.lex"
+{ strcpy(nomID,yytext);printf("--identifier-- \n"); return identifier;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 113 "java.lex"
+#line 115 "java.lex"
 {strcpy(nom,yytext);printf("--point_virgule-- \n");return point_virgule;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 114 "java.lex"
+#line 116 "java.lex"
 {strcpy(nom,yytext);printf("--OPER-- \n"); return OPER ;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 115 "java.lex"
+#line 117 "java.lex"
 {strcpy(nom,yytext);printf("--IDERONNE-- \n") ;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 116 "java.lex"
+#line 118 "java.lex"
 ECHO;
 	YY_BREAK
-#line 959 "lex.yy.c"
+#line 961 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1839,7 +1841,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 116 "java.lex"
+#line 118 "java.lex"
 
 
 
