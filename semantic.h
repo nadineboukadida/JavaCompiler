@@ -10,10 +10,12 @@ typedef enum
 } CLASSE;
 
 typedef enum
+
 {
+    tInt,
+    tBool,
     tChar,
     tShort,
-    tInt,
     tLong,
     tFloat,
     tDouble,
@@ -51,7 +53,10 @@ void checkParam(char *identif);
 void enterFunction();
 void closeFunction();
 void destructTable(NOEUD table);
-void checkIdentifier(char *nom, int classe);
+void checkIdentifier(char *nom, int classe, int type);
 bool checkInit(char *identif, NOEUD table);
 void init_helper(char *identif, NOEUD table);
 void initVariable(char *identif);
+void changeCurrentType(int type);
+void showMessage(char* msg, int color);
+void changeCurrentType(int type);

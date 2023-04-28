@@ -92,33 +92,36 @@ CLASS_DECLARATIONS      : CLASS_DECLARATION
                         | CLASS_DECLARATION CLASS_DECLARATIONS
                     ;
 
-VAR_DECLARATIONS      : TYPE identifier TYPE_OPT {printf("-------  Var declaration----------\n");}       
-                        |VAR_DECLARATIONS TYPE identifier TYPE_OPT {printf("--------- Var declarationS --------------");}; 
+VAR_DECLARATIONS      : TYPE identifier TYPE_OPT       
+                        |VAR_DECLARATIONS TYPE identifier TYPE_OPT; 
 
-ARGUMENTS               :TYPE {checkVariable(nomID,1)} identifier {printf("---------------Argument declared----------------"); }
-                        |ARGUMENTS COMMA TYPE {checkVariable(nomID,1)} identifier { printf("--------------ARGUMENTS DECLARED-----------.\n"); }
+ARGUMENTS               :TYPE {checkVariable(nomID,1)}  identifier 
+                        |ARGUMENTS COMMA TYPE  identifier {checkVariable(nomID,1)}
                         ;
                         
-METHOD_DECLARATION      :       PUBLIC TYPE {checkVariable(nomID,2)} identifier OPEN_PARENTH ARGUMENTS CLOSED_PARENTH {enterFunction()} OPEN_CURLY VAR_DECLARATIONS STATEMENT RETURN EXPRESSION point_virgule {closeFunction()} CLOSE_CURLY  { printf("***METHOD DECLARED***.\n"); }
+METHOD_DECLARATION      :       PUBLIC TYPE {checkVariable(nomID,2)} identifier OPEN_PARENTH ARGUMENTS CLOSED_PARENTH {enterFunction()} OPEN_CURLY VAR_DECLARATIONS STATEMENTLIST RETURN EXPRESSION point_virgule {closeFunction()} CLOSE_CURLY  { printf("***METHOD DECLARED***.\n"); }
                     
                                 
 METHOD_DECLARATIONS         :   METHOD_DECLARATION
                                 |METHOD_DECLARATION METHOD_DECLARATIONS ;
 
 
-TYPE                    :       INT OPEN_BRACKET CLOSED_BRACKET  { printf("***TYPE ARRAY of int***.\n"); }
-                                |error OPEN_BRACKET CLOSED_BRACKET {yyerror (" INT attendu on line : "); YYABORT}
-                                |INT error CLOSED_BRACKET {yyerror (" OPEN_BRACKET attendu on line : "); YYABORT}
-                                |INT OPEN_BRACKET error {yyerror (" CLOSED_BRACKET attendu on line : "); YYABORT}
-                                | BOOLEAN  
-                                | INT  
+TYPE                    :   INT {changeCurrentType(0);}  
+                            |BOOLEAN {changeCurrentType(1);}  
+                            |INT error CLOSED_BRACKET {yyerror (" OPEN_BRACKET attendu on line : "); YYABORT}
+                            |INT OPEN_BRACKET error {yyerror (" CLOSED_BRACKET attendu on line : "); YYABORT}
+      
                         ; 
-TYPE_OPT                :        {checkVariable(nomID,0),initVariable(nomID)} AFFECT var_type point_virgule 
+TYPE_OPT                :         AFFECT var_type point_virgule 
                                 |{checkVariable(nomID,0)}point_virgule ;
-var_type                :       BOOLEAN_LITERAL
-                                |INTEGER_LITERAL;
+var_type                :       {checkType(1);checkVariable(nomID,0),initVariable(nomID)}BOOLEAN_LITERAL
+                                |{checkType(0);checkVariable(nomID,0),initVariable(nomID)}INTEGER_LITERAL;
+
+
+statement_type                :  {checkIdentifier(nomID,0,1)}BOOLEAN_LITERAL
+                                |{checkIdentifier(nomID,0,0)}INTEGER_LITERAL;
                                                                                                                        
-STATEMENT               :       {checkIdentifier(nomID,0)}identifier AFFECT BOOLEAN_LITERAL point_virgule { printf("***AFFECT STATEMENT***.\n"); }
+STATEMENT               :       identifier AFFECT  statement_type point_virgule { printf("***AFFECT STATEMENT***.\n"); }
                                 |IF OPEN_PARENTH EXPRESSION CLOSED_PARENTH STATEMENT ELSE STATEMENT { printf("***IF STATEMENT***.\n"); }
                                 |IF error EXPRESSION CLOSED_PARENTH STATEMENT ELSE STATEMENT {yyerror (" OPEN_PARENTH attendu on line : "); YYABORT}
                                 |IF OPEN_PARENTH error CLOSED_PARENTH STATEMENT ELSE STATEMENT {yyerror (" EXPRESSION attendu on line : "); YYABORT}
@@ -140,7 +143,7 @@ STATEMENT               :       {checkIdentifier(nomID,0)}identifier AFFECT BOOL
 STATEMENTLIST :             STATEMENT    
                             |STATEMENT STATEMENTLIST;
 
-EXPRESSION             :        {checkIdentifier(nomID,0)} identifier {printf("---------Expression: Identifier----------");}
+EXPRESSION             :        {checkIdentifier(nomID,0,-1)} identifier 
                                 |EXPRESSION OPER EXPRESSION { printf("***expression avec operateur***.\n"); }
                                 |EXPRESSION AESTRIK EXPRESSION  { printf("***expression avec operateur***.\n"); }
                                 |EXPRESSION error EXPRESSION {yyerror (" OPER/AESTRIK attendu on line : "); YYABORT}

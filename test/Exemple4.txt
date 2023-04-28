@@ -1,0 +1,15 @@
+    
+ class hi {
+    public int ComputeFac(int num){
+        boolean numaux = true;
+        int numaux1= 2;
+
+        numaux = true;
+        return numaux1;
+        }
+    public int ComputeFac(int num){
+        return numaux1;
+        } 
+        
+        
+        }

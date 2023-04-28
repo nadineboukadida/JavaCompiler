@@ -5,6 +5,7 @@
 
 NOEUD table_global, table_local;
 int insideFunc = 0;
+int current_type = 0;
 NOEUD creer(const char *identif, TYPE_IDENTIFIER type, CLASSE classe, NOEUD suivant)
 {
     NOEUD noeud = (NOEUD)malloc(sizeof(struct NOEUD));
@@ -48,6 +49,7 @@ NOEUD rechercher(const char *identif, NOEUD table, int classe)
     {
         if (strcmp(identif, noeud->info->identif) == 0 && classe == noeud->info->classe)
         {
+            
             return noeud;
         }
         noeud = noeud->suivant;
@@ -71,9 +73,8 @@ void checkVariable(char *identif, int classe)
             }
             else
             {
-                printf("\033[34mCreating new PRIVATE variable: %s\033[0m\n", identif);
-
-                NOEUD noeud = creer(identif, tInt, variable, NULL);
+                printf("\033[32mCreated new PRIVATE variable: %s\033[0m\n", identif);
+                NOEUD noeud = creer(identif, current_type, variable, NULL);
                 table_local = insert(noeud, table_local);
             }
         }
@@ -86,8 +87,8 @@ void checkVariable(char *identif, int classe)
             }
             else
             {
-                printf("\033[34mCreating new GLOBAL variable: %s\033[0m\n", identif);
-                NOEUD noeud = creer(identif, tInt, variable, NULL);
+                printf("\033[32mCreating new GLOBAL variable: %s\033[0m\n", identif);
+                NOEUD noeud = creer(identif, current_type, variable, NULL);
                 table_global = insert(noeud, table_global);
             }
         }
@@ -95,11 +96,10 @@ void checkVariable(char *identif, int classe)
     else if (classe == 1)
     {
         // argument name
-
         if (rechercher(identif, table_local, parametre))
         {
             printf("\x1b[31m Argument identifier already defined: %s\x1b[0m\n", identif);
-            abort();
+            // abort();
         }
         else
         {
@@ -177,24 +177,30 @@ bool checkInit(char *identif, NOEUD table)
     return false;
 }
 
-void checkIdentifier(char *identif, int classe)
+void checkIdentifier(char *identif, int classe, int type)
 {
 
     if (classe == 0)
     {
-        printf("\033[34m --------- Checking identifier --------- \033[0m\n");
-
         if (insideFunc == 1)
         {
-            if (rechercher(identif, table_local, classe))
+            NOEUD foundNode = rechercher(identif, table_local, classe);
+            if (foundNode)
             {
-                if (checkInit(identif, table_local))
+
+                printf("\033[32m Variable defined %s\033[0m\n", identif);
+                if (type != -1)
                 {
-                    printf("\033[32m Variable initialised %s\033[0m\n", identif);
-                }
-                else
-                {
-                    printf("\x1b[31m variable NOT initialised: %s\x1b[0m\n", identif);
+
+                    if (type == foundNode->info->type)
+                    {
+                        showMessage("SUCCESS: Affecting same TYPE", 1);
+                    }
+                    else
+                    {
+                        showMessage("NOT affecting the Same type", 0);
+                        abort();
+                    }
                 }
             }
             else
@@ -207,20 +213,50 @@ void checkIdentifier(char *identif, int classe)
             if (rechercher(identif, table_global, classe))
             {
 
-                if (checkInit(identif, table_global))
-                {
-                    printf("\033[32m Variable initialised %s\033[0m\n", identif);
-                }
-                else
-                {
-                    printf("\x1b[31m variable NOT initialised: %s\x1b[0m\n", identif);
-                }
+                printf("\033[32m Variable defined %s\033[0m\n", identif);
+            }
+            else
+            {
+                printf("\x1b[31m variable NOT defined: %s\x1b[0m\n", identif);
             }
         }
+    }
+}
 
-        // }
-        // else if (classe==1){
+void changeCurrentType(int type)
+{
+    current_type = type;
+}
+void checkType(int type)
+{
 
-        // }else {
+    if (type == current_type)
+    {
+        showMessage("SUCCESS: Initialization with Same type", 1);
+    }
+    else
+    {
+        showMessage("NOT Same type", 0);
+        abort();
+    }
+}
+
+void showMessage(char *msg, int color)
+{
+    if (color == 0)
+    {
+        printf("\x1b[31m%s\x1b[0m\n", msg);
+    }
+    else if (color == 1)
+    {
+        printf("\033[34m %s\033[0m\n", msg);
+    }
+    else if (color == 2)
+    {
+        printf("\033[32m%s\033[0m\n", msg);
+    }
+    else
+    {
+        printf("\033[0;35m%s\033[0m\n", msg);
     }
 }
