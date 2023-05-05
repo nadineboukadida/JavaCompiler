@@ -7,7 +7,10 @@
 #include "java.tab.h"	    
 #include <stdbool.h>                                                                     	
 char nom[100];
+char op[100];
+
 char nomID[100];
+int val;
 %}
 
 %option yylineno
@@ -23,8 +26,9 @@ BOOLEAN                                   (boolean)
 PROGRAM                                 (program)
 identifier                              [a-zA-Z][a-zA-Z0-9]*
 point_virgule                           (;)
-OPER                                    ("&&"|"<"|"+"|"-")
-
+OPER                                    ("&&"|"<")
+ADD                                     ("+")
+SUB                                      ("-")
 AESTRIK                                 ("*")
 THIS                                    (this)
 NEW                                     (new)
@@ -76,7 +80,7 @@ IDERONNE                                [0-9][a-zA-Z]*
                                    }
 \n   ;
 {BOOLEAN_LITERAL}                       {strcpy(nom,yytext); return BOOLEAN_LITERAL;}
-{INTEGER_LITERAL}                       {strcpy(nom,yytext);return INTEGER_LITERAL;}
+{INTEGER_LITERAL}                       {val = atoi(yytext);return INTEGER_LITERAL;}
 {BOOLEAN}                                   {strcpy(nom,yytext); return BOOLEAN ;}
 {PUBLIC}                                {strcpy(nom,yytext); return PUBLIC;} 
 {RETURN}                                {strcpy(nom,yytext); return RETURN;} 
@@ -90,7 +94,6 @@ IDERONNE                                [0-9][a-zA-Z]*
 {STRING}                                   {strcpy(nom,yytext); return STRING; }
 {LENGTH}                                 {strcpy(nom,yytext); return LENGTH;} 
 {DOT}                                    {strcpy(nom,yytext);return DOT;} 
-{AESTRIK}                               {strcpy(nom,yytext); return AESTRIK;}
 {THIS}                                   {strcpy(nom,yytext) ;return THIS;} 
 {PROGRAM}                               { strcpy(nom,yytext);return PROGRAM;}
 {NEW}                                   {strcpy(nom,yytext); return NEW; }
@@ -113,6 +116,10 @@ IDERONNE                                [0-9][a-zA-Z]*
 {identifier}                            { strcpy(nomID,yytext);return identifier;}
 {point_virgule}                          {strcpy(nom,yytext);return point_virgule;}
 {OPER}                                  {strcpy(nom,yytext);return OPER ;}
+{ADD}                                  {strcpy(op, "ADD");return ADD ;}
+{SUB}                                  {strcpy(op, "SUB");return SUB ;}
+{AESTRIK}                               {strcpy(op, "MUL"); return AESTRIK;}
+
 {IDERONNE}                              {strcpy(nom,yytext);}
 %%
 

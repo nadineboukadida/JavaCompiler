@@ -56,6 +56,20 @@ NOEUD rechercher(const char *identif, NOEUD table, int classe)
     }
     return NULL;
 }
+int getAddress (const char* identif, NOEUD table) {
+    if( !table )
+        return -1;
+    NOEUD noeud = table;
+    int pos=0;
+    while( noeud ){
+        if (strcmp(identif, noeud->info->identif) == 0){
+            return pos;
+        }
+        pos++;
+        noeud = noeud->suivant;
+    }
+    return -1;
+}
 
 void checkVariable(char *identif, int classe)
 {
@@ -199,7 +213,6 @@ void checkIdentifier(char *identif, int classe, int type)
                     else
                     {
                         showMessage("NOT affecting the Same type", 0);
-                        abort();
                     }
                 }
             }
@@ -237,7 +250,6 @@ void checkType(int type)
     else
     {
         showMessage("NOT Same type", 0);
-        abort();
     }
 }
 

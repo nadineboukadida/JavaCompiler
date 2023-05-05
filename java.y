@@ -5,7 +5,7 @@
     #include <stdlib.h>
     #include <stdbool.h>
     #include "semantic.c"
-
+    #include "generator.c"
 
 int yyerror(char const *msg);	
 int yylex(void);
@@ -14,6 +14,14 @@ char nom[256];
 char nomID[256];
 #define YYSTYPE char*
 extern char *yytext;
+int indexIf;
+int indexWhile1;
+int indexWhile2;
+char oper[10];
+void EndCodeGen();
+void BeginCodeGen();
+int val;
+char op[256];
 
 %}
 
@@ -52,6 +60,9 @@ extern char *yytext;
 %token  STATIC
 %token  VOID
 %token  MAIN
+%token  ADD
+%token  SUB
+
 
  
 /*%error-verbose*/
@@ -59,7 +70,7 @@ extern char *yytext;
 
 
 %%
-programme :              CLASS_DECLARATION
+programme :              CLASS_DECLARATION {genererCode();}
 
 MAINCLASS              : CLASS identifier OPEN_CURLY PUBLIC STATIC VOID MAIN OPEN_PARENTH STRING OPEN_BRACKET CLOSED_BRACKET identifier  CLOSED_PARENTH OPEN_CURLY CLOSE_CURLY CLOSE_CURLY { printf("***EMPTY MAIN CLASS DECLARED***.\n"); }
                         |CLASS identifier OPEN_CURLY PUBLIC STATIC VOID MAIN OPEN_PARENTH STRING OPEN_BRACKET CLOSED_BRACKET identifier  CLOSED_PARENTH OPEN_CURLY STATEMENT CLOSE_CURLY CLOSE_CURLY { printf("***MAIN CLASS DECLARED***.\n"); }
@@ -121,14 +132,10 @@ var_type                :       {checkType(1);checkVariable(nomID,0),initVariabl
 statement_type                :  {checkIdentifier(nomID,0,1)}BOOLEAN_LITERAL
                                 |{checkIdentifier(nomID,0,0)}INTEGER_LITERAL;
                                                                                                                        
-STATEMENT               :       identifier AFFECT  statement_type point_virgule { printf("***AFFECT STATEMENT***.\n"); }
-                                |IF OPEN_PARENTH EXPRESSION CLOSED_PARENTH STATEMENT ELSE STATEMENT { printf("***IF STATEMENT***.\n"); }
-                                |IF error EXPRESSION CLOSED_PARENTH STATEMENT ELSE STATEMENT {yyerror (" OPEN_PARENTH attendu on line : "); YYABORT}
-                                |IF OPEN_PARENTH error CLOSED_PARENTH STATEMENT ELSE STATEMENT {yyerror (" EXPRESSION attendu on line : "); YYABORT}
-                                |IF OPEN_PARENTH EXPRESSION error OPEN_CURLY {yyerror (" CLOSED_PARENTH attendu d on line : "); YYABORT}
-                                |IF OPEN_PARENTH EXPRESSION CLOSED_PARENTH error ELSE STATEMENT {yyerror (" IF attendu on line : "); YYABORT}
-                                |IF OPEN_PARENTH EXPRESSION CLOSED_PARENTH STATEMENT error STATEMENT {yyerror (" ELSE attendu on line : "); YYABORT}
-                                |IF OPEN_PARENTH EXPRESSION CLOSED_PARENTH STATEMENT ELSE error {yyerror (" STATEMENT attendu on line : "); YYABORT}
+STATEMENT               :       identifier AFFECT {tabCodeInt[indextab]=creerOp("STORE",getAddress(nomID,table_local));indextab++;} EXPRESSION point_virgule
+                                |IF OPEN_PARENTH EXPRESSION CLOSED_PARENTH  {tabCodeInt[indextab]=creerCode("SIFAUX");indexIf=indextab;indextab++;}
+                                  OPEN_CURLY  STATEMENT CLOSE_CURLY {tabCodeInt[indextab]=creerCode("SAUT");indextab++;tabCodeInt[indexIf].operande=indextab;indexIf=indextab-1;}
+                                  ELSE OPEN_CURLY STATEMENT CLOSE_CURLY {tabCodeInt[indexIf].operande=indextab;}
                                 |WHILE OPEN_PARENTH EXPRESSION CLOSED_PARENTH STATEMENT { printf("***WHILE STATEMENT***.\n"); }
                                 |WHILE error EXPRESSION CLOSED_PARENTH STATEMENT {yyerror (" OPEN_PARENTH attendu on line : "); YYABORT}
                                 |WHILE OPEN_PARENTH error CLOSED_PARENTH STATEMENT {yyerror (" EXPRESSION attendu on line : "); YYABORT}
@@ -140,20 +147,22 @@ STATEMENT               :       identifier AFFECT  statement_type point_virgule 
                                 |PRINT OPEN_PARENTH error CLOSED_PARENTH point_virgule {yyerror (" EXPRESSION attendu on line : "); YYABORT}
                                 |PRINT OPEN_PARENTH EXPRESSION error point_virgule {yyerror (" CLOSED_PARENTH attendu a on line : "); YYABORT}
                                 |PRINT OPEN_PARENTH EXPRESSION CLOSED_PARENTH error {yyerror (" 2222222point_virgule attendu on line : "); YYABORT}
-STATEMENTLIST :             STATEMENT    
+STATEMENTLIST :             STATEMENT 
                             |STATEMENT STATEMENTLIST;
 
 EXPRESSION             :        {checkIdentifier(nomID,0,-1)} identifier 
-                                |EXPRESSION OPER EXPRESSION { printf("***expression avec operateur***.\n"); }
-                                |EXPRESSION AESTRIK EXPRESSION  { printf("***expression avec operateur***.\n"); }
-                                |EXPRESSION error EXPRESSION {yyerror (" OPER/AESTRIK attendu on line : "); YYABORT}
+                                |statement_type 
+                                |EXPRESSION ADD EXPRESSION {tabCodeInt[indextab]=creerCode(op);indextab++;}
+                                |EXPRESSION SUB EXPRESSION {tabCodeInt[indextab]=creerCode(op);indextab++;}
+                                |EXPRESSION AESTRIK EXPRESSION{tabCodeInt[indextab]=creerCode(op);indextab++;}
+                                |EXPRESSION OPER EXPRESSION {tabCodeInt[indextab]=creerCode(op);indextab++;}
                                 |EXPRESSION OPEN_BRACKET EXPRESSION CLOSED_BRACKET   { printf("***expression avec accees par cle***.\n"); }
                                 |EXPRESSION OPEN_BRACKET EXPRESSION error {yyerror (" CLOSED_BRACKET attendu on line : "); YYABORT}
                                 |EXPRESSION OPEN_BRACKET error CLOSED_BRACKET {yyerror (" EXPRESSION attendu on line : "); YYABORT}
                                 |EXPRESSION DOT LENGTH   { printf("***access longeur valide***.\n"); }
                                 |EXPRESSION error LENGTH {yyerror (" DOT attendu on line : "); YYABORT}
                                 |EXPRESSION DOT error {yyerror (" LENGTH attendu on line : "); YYABORT}
-                                |INTEGER_LITERAL 
+                                |INTEGER_LITERAL {tabCodeInt[indextab]=creerOp("LDC",val);indextab++;}
                                 |BOOLEAN_LITERAL
 
                                 |THIS 
@@ -192,9 +201,6 @@ extern FILE *yyin;
 int main()
 {
  yyparse();
- 
- 
 }
-
   
                    

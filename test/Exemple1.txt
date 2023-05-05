@@ -1,11 +1,13 @@
     
  class hi {
     public int ComputeFac(int num){
-        boolean numaux = true;
-        int numaux1= 2;
-
+        int numaux = 8;
+        if(true){
+        numaux = 2*3;
+        }else {
         numaux = true;
-        numaux1 = 3;
-
+        }
         return numaux;
-        }}
+    }
+        
+        }

@@ -3,6 +3,9 @@
     public int ComputeFac(int num){
         boolean numaux = true;
         numaux = false;
+        
+        numaux = 3;
 
         return test;
-        }}
+        }
+        }

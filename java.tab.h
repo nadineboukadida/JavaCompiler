@@ -73,7 +73,9 @@
      CLASS = 289,
      STATIC = 290,
      VOID = 291,
-     MAIN = 292
+     MAIN = 292,
+     ADD = 293,
+     SUB = 294
    };
 #endif
 
